@@ -19,6 +19,7 @@ class WalletSeeder extends Seeder
             'id' => '1',
             'address' => '123456',
             'balance' => 8937834823428923468324565345435000000000000000000000000000000000,
+            'user_id' => 1
         ]);
 
     }

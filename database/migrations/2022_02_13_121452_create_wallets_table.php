@@ -17,6 +17,7 @@ class CreateWalletsTable extends Migration
             $table->unsignedInteger('id')->unique();
             $table->string('address');
             $table->double('balance');
+            $table->unsignedInteger('user_id');
         });
     }
 

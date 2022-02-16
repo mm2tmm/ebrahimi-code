@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\StoreOrderRequest;
-use app\Models\CUrrency;
-use app\Models\Wallet;
 use app\Models\Order;
+use app\Models\Wallet;
+use app\Models\Currency;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Requests\StoreOrderRequest;
 
 
 class OrderController extends Controller
@@ -31,10 +32,25 @@ class OrderController extends Controller
     {
         // validation chacked in StoreOrderRequest
 
-        // variable defining
-        $wallet = Wallet::findOrFail($request->wallet_id);
-        $currency = CUrrency::findOrFail($request->currency_id);
+        /* -----------------------------
+        ------ variable defining -------- */
+        // wallet
+        $wallet_id = $request->wallet_id;
+        $wallet = Cache::get("Wallet:$wallet_id", function () use($wallet_id) {
+            Wallet::findOrFail($wallet_id);
+        });
+
+        // currency
+        $currency_id = $request->currency_id;
+        $wallet = Cache::get("Currency:$currency_id", function () use($currency_id) {
+            $currency = CUrrency::findOrFail($currency_id);
+        });
+
         $order_volume = $request->order_volume;
+
+
+        /* ------ variable defining -------
+        -------------------------------- */
 
         // Calculate the transaction cost
         $cost = $currency->fee * $order_volume / 100;

@@ -11,4 +11,16 @@ class Wallet extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'id',
+        'address',
+        'balance',
+        'user_id'
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
 }

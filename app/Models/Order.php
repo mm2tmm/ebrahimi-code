@@ -18,5 +18,14 @@ class Order extends Model
 
     public $timestamps = false;
 
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }
